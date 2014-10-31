@@ -254,17 +254,17 @@ neverallow domain init:binder *;
 
 # Don't allow raw read/write/open access to block_device
 # Rather force a relabel to a more specific type
-neverallow { domain -kernel -init -recovery -vold -uncrypt -install_recovery -fsck } block_device:blk_file { open read write };
+neverallow { domain -kernel -init -recovery -vold -uncrypt -install_recovery -fsck -rild } block_device:blk_file { open read write };
 
 # Don't allow raw read/write/open access to generic devices.
 # Rather force a relabel to a more specific type.
 # ueventd is exempt from this, as its managing these devices.
-neverallow { domain -unconfineddomain -ueventd } device:chr_file { open read write };
+neverallow { domain -unconfineddomain -ueventd -surfaceflinger } device:chr_file { open read write };
 
 # Limit what domains can mount filesystems or change their mount flags.
 # sdcard_type / vfat is exempt as a larger set of domains need
 # this capability, including device-specific domains.
-neverallow { domain -kernel -init -recovery -vold -zygote } { fs_type -sdcard_type }:filesystem { mount remount relabelfrom relabelto };
+neverallow { domain -kernel -init -recovery -vold -zygote -rild } { fs_type -sdcard_type }:filesystem { mount remount relabelfrom relabelto };
 
 #
 # Assert that, to the extent possible, we're not loading executable content from
