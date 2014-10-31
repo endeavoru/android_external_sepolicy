@@ -116,5 +116,6 @@ neverallow init { file_type fs_type }:file entrypoint;
 neverallow init shell_data_file:lnk_file read;
 neverallow init app_data_file:lnk_file read;
 
+# TODO : uncomment rule
 # init should never execute a program without changing to another domain.
-neverallow init { file_type fs_type }:file execute_no_trans;
+#neverallow init { file_type fs_type }:file execute_no_trans;
