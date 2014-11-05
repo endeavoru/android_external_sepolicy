@@ -47,9 +47,7 @@ allow drmserver radio_data_file:file { read getattr };
 
 allow drmserver drmserver_service:service_manager add;
 
-# /oem access
-allow drmserver oemfs:dir search;
-allow drmserver oemfs:file r_file_perms;
+<<<<<<< HEAD
 # Audited locally.
 service_manager_local_audit_domain(drmserver)
 auditallow drmserver {
@@ -59,3 +57,8 @@ auditallow drmserver {
 }:service_manager find;
 
 selinux_check_access(drmserver)
+=======
+# /oem access
+allow drmserver oemfs:dir search;
+allow drmserver oemfs:file r_file_perms;
+>>>>>>> 56731989f48bbfb2fb0ae1de60c39cf62d304d19

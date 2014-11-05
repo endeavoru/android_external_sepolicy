@@ -11,11 +11,14 @@ allow bootanim gpu_device:chr_file rw_file_perms;
 
 # /oem access
 allow bootanim oemfs:dir search;
-allow bootanim oemfs:file r_file_perms;
-
-allow bootanim audio_device:dir r_dir_perms;
-allow bootanim audio_device:chr_file rw_file_perms;
+<<<<<<< HEAD
 
 # Audited locally.
 service_manager_local_audit_domain(bootanim)
 auditallow bootanim { service_manager_type -surfaceflinger_service }:service_manager find;
+=======
+allow bootanim oemfs:file r_file_perms;
+
+allow bootanim audio_device:dir r_dir_perms;
+allow bootanim audio_device:chr_file rw_file_perms;
+>>>>>>> 56731989f48bbfb2fb0ae1de60c39cf62d304d19

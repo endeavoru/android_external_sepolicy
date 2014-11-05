@@ -83,24 +83,3 @@ allow mediaserver mediaserver_service:service_manager add;
 # /oem access
 allow mediaserver oemfs:dir search;
 allow mediaserver oemfs:file r_file_perms;
-# Audited locally.
-service_manager_local_audit_domain(mediaserver)
-auditallow mediaserver {
-    service_manager_type
-    -drmserver_service
-    -mediaserver_service
-    -system_server_service
-    -surfaceflinger_service
-}:service_manager find;
-
-use_drmservice(mediaserver)
-allow mediaserver drmserver:drmservice {
-    consumeRights
-    setPlaybackStatus
-    openDecryptSession
-    closeDecryptSession
-    initializeDecryptUnit
-    decrypt
-    finalizeDecryptUnit
-    pread
-};

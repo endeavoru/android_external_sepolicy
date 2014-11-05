@@ -162,11 +162,13 @@ allow domain asec_public_file:file r_file_perms;
 allow domain { asec_public_file asec_apk_file }:dir r_dir_perms;
 
 allow domain servicemanager:service_manager list;
-allow domain service_manager_type:service_manager find;
-
+<<<<<<< HEAD
 auditallow { domain -dumpstate } servicemanager:service_manager list;
 allow domain service_manager_type:service_manager find;
 auditallow { domain -service_manager_local_audit } service_manager_type:service_manager find;
+=======
+allow domain service_manager_type:service_manager find;
+>>>>>>> 56731989f48bbfb2fb0ae1de60c39cf62d304d19
 
 ###
 ### neverallow rules
@@ -315,8 +317,8 @@ neverallow { domain -recovery } contextmount_type:dir_file_class_set
 # from service name to service_type are defined in service_contexts.
 neverallow domain default_android_service:service_manager add;
 
+<<<<<<< HEAD
 # Require that domains explicitly label unknown properties, and do not allow
-neverallow { domain -init -recovery -system_server } frp_block_device:blk_file rw_file_perms;
 # anyone but init to modify unknown properties.
 neverallow { domain -init } default_prop:property_service set;
 
@@ -327,3 +329,6 @@ neverallow { domain -recovery } system_block_device:blk_file write;
 
 # No domains other than install_recovery or recovery can write to recovery.
 neverallow { domain -install_recovery -recovery } recovery_block_device:blk_file write;
+=======
+neverallow { domain -init -recovery -system_server } frp_block_device:blk_file rw_file_perms;
+>>>>>>> 56731989f48bbfb2fb0ae1de60c39cf62d304d19

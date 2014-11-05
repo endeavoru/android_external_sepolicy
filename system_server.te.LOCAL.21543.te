@@ -71,15 +71,8 @@ allow system_server self:netlink_kobject_uevent_socket create_socket_perms;
 # Use generic netlink sockets.
 allow system_server self:netlink_socket create_socket_perms;
 
-# Set and get routes directly via netlink.
-allow system_server self:netlink_route_socket nlmsg_write;
-
 # Kill apps.
 allow system_server appdomain:process { sigkill signal };
-
-# This line seems suspect, as it should not really need to
-# set scheduling parameters for a kernel domain task.
-allow system_server kernel:process setsched;
 
 # Set scheduling info for apps.
 allow system_server appdomain:process { getsched setsched };
@@ -178,8 +171,6 @@ allow system_server tun_device:chr_file rw_file_perms;
 # Manage system data files.
 allow system_server system_data_file:dir create_dir_perms;
 allow system_server system_data_file:notdevfile_class_set create_file_perms;
-allow system_server keychain_data_file:dir create_dir_perms;
-allow system_server keychain_data_file:file create_file_perms;
 
 # Manage /data/app.
 allow system_server apk_data_file:dir create_dir_perms;
@@ -405,7 +396,6 @@ allow system_server cgroup:dir { remove_name rmdir };
 
 # /oem access
 allow system_server oemfs:dir search;
-r_dir_file(system_server, oemfs)
 
 ###
 ### Neverallow rules

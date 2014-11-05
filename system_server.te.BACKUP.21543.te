@@ -404,8 +404,11 @@ allow system_server frp_block_device:blk_file rw_file_perms;
 allow system_server cgroup:dir { remove_name rmdir };
 
 # /oem access
+<<<<<<< HEAD
 allow system_server oemfs:dir search;
+=======
 r_dir_file(system_server, oemfs)
+>>>>>>> 56731989f48bbfb2fb0ae1de60c39cf62d304d19
 
 ###
 ### Neverallow rules

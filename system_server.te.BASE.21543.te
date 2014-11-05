@@ -14,7 +14,6 @@ allow system_server system_server_tmpfs:file execute;
 
 # For art.
 allow system_server dalvikcache_data_file:file execute;
-allow system_server dex2oat_exec:file rx_file_perms;
 
 # /data/resource-cache
 allow system_server resourcecache_data_file:file r_file_perms;
@@ -71,15 +70,8 @@ allow system_server self:netlink_kobject_uevent_socket create_socket_perms;
 # Use generic netlink sockets.
 allow system_server self:netlink_socket create_socket_perms;
 
-# Set and get routes directly via netlink.
-allow system_server self:netlink_route_socket nlmsg_write;
-
 # Kill apps.
 allow system_server appdomain:process { sigkill signal };
-
-# This line seems suspect, as it should not really need to
-# set scheduling parameters for a kernel domain task.
-allow system_server kernel:process setsched;
 
 # Set scheduling info for apps.
 allow system_server appdomain:process { getsched setsched };
@@ -134,9 +126,6 @@ binder_call(system_server, appdomain)
 binder_call(system_server, dumpstate)
 binder_service(system_server)
 
-# Ask debuggerd to dump backtraces for native stacks of interest.
-allow system_server { mediaserver sdcardd surfaceflinger inputflinger }:debuggerd dump_backtrace;
-
 # Read /proc/pid files for dumping stack traces of native processes.
 r_dir_file(system_server, mediaserver)
 r_dir_file(system_server, sdcardd)
@@ -178,8 +167,6 @@ allow system_server tun_device:chr_file rw_file_perms;
 # Manage system data files.
 allow system_server system_data_file:dir create_dir_perms;
 allow system_server system_data_file:notdevfile_class_set create_file_perms;
-allow system_server keychain_data_file:dir create_dir_perms;
-allow system_server keychain_data_file:file create_file_perms;
 
 # Manage /data/app.
 allow system_server apk_data_file:dir create_dir_perms;
@@ -205,6 +192,10 @@ allow system_server anr_data_file:file create_file_perms;
 # Manage /data/backup.
 allow system_server backup_data_file:dir create_dir_perms;
 allow system_server backup_data_file:file create_file_perms;
+
+# Manage /data/dalvik-cache.
+allow system_server dalvikcache_data_file:dir create_dir_perms;
+allow system_server dalvikcache_data_file:file create_file_perms;
 
 # Read from /data/dalvik-cache/profiles
 allow system_server dalvikcache_profiles_data_file:dir rw_dir_perms;
@@ -370,9 +361,6 @@ allow system_server pstorefs:file r_file_perms;
 
 allow system_server system_server_service:service_manager add;
 
-# Audited locally.
-service_manager_local_audit_domain(system_server)
-
 allow system_server keystore:keystore_key {
 	test
 	get
@@ -390,22 +378,15 @@ allow system_server keystore:keystore_key {
 	grant
 	duplicate
 	clear_uid
-	reset_uid
-	sync_uid
-	password_uid
 };
 
-# Allow system server to search and write to the persistent factory reset
-# protection partition. This block device does not get wiped in a factory reset.
+# Allow system server to search and write to the persistent data block device
+# This block device does not get wiped in a factory reset.
+allow system_server persistent_data_block_device:blk_file rw_file_perms;
 allow system_server block_device:dir search;
-allow system_server frp_block_device:blk_file rw_file_perms;
 
 # Clean up old cgroups
 allow system_server cgroup:dir { remove_name rmdir };
-
-# /oem access
-allow system_server oemfs:dir search;
-r_dir_file(system_server, oemfs)
 
 ###
 ### Neverallow rules

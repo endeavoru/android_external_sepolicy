@@ -14,7 +14,6 @@ allow system_server system_server_tmpfs:file execute;
 
 # For art.
 allow system_server dalvikcache_data_file:file execute;
-allow system_server dex2oat_exec:file rx_file_perms;
 
 # /data/resource-cache
 allow system_server resourcecache_data_file:file r_file_perms;
@@ -133,9 +132,6 @@ binder_call(system_server, binderservicedomain)
 binder_call(system_server, appdomain)
 binder_call(system_server, dumpstate)
 binder_service(system_server)
-
-# Ask debuggerd to dump backtraces for native stacks of interest.
-allow system_server { mediaserver sdcardd surfaceflinger inputflinger }:debuggerd dump_backtrace;
 
 # Read /proc/pid files for dumping stack traces of native processes.
 r_dir_file(system_server, mediaserver)
@@ -370,9 +366,6 @@ allow system_server pstorefs:file r_file_perms;
 
 allow system_server system_server_service:service_manager add;
 
-# Audited locally.
-service_manager_local_audit_domain(system_server)
-
 allow system_server keystore:keystore_key {
 	test
 	get
@@ -404,7 +397,6 @@ allow system_server frp_block_device:blk_file rw_file_perms;
 allow system_server cgroup:dir { remove_name rmdir };
 
 # /oem access
-allow system_server oemfs:dir search;
 r_dir_file(system_server, oemfs)
 
 ###
